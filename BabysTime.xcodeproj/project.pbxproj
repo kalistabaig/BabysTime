@@ -8,20 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		251FD9C722B1E1DD0030DAE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251FD9C622B1E1DD0030DAE7 /* AppDelegate.swift */; };
-		251FD9C922B1E1DD0030DAE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251FD9C822B1E1DD0030DAE7 /* ViewController.swift */; };
 		251FD9CC22B1E1DD0030DAE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 251FD9CA22B1E1DD0030DAE7 /* Main.storyboard */; };
 		251FD9CE22B1E1E00030DAE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 251FD9CD22B1E1E00030DAE7 /* Assets.xcassets */; };
 		251FD9D122B1E1E00030DAE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 251FD9CF22B1E1E00030DAE7 /* LaunchScreen.storyboard */; };
+		25DD72EB22B9D2980041BB6A /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD72EA22B9D2980041BB6A /* ActivityViewController.swift */; };
+		25DD72ED22B9D4EA0041BB6A /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD72EC22B9D4EA0041BB6A /* Activity.swift */; };
+		25DD72EF22B9DB800041BB6A /* ActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD72EE22B9DB800041BB6A /* ActivityCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		251FD9C322B1E1DD0030DAE7 /* BabysTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabysTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		251FD9C622B1E1DD0030DAE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		251FD9C822B1E1DD0030DAE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		251FD9CB22B1E1DD0030DAE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		251FD9CD22B1E1E00030DAE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		251FD9D022B1E1E00030DAE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		251FD9D222B1E1E00030DAE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		25DD72EA22B9D2980041BB6A /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
+		25DD72EC22B9D4EA0041BB6A /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		25DD72EE22B9DB800041BB6A /* ActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,12 +58,14 @@
 		251FD9C522B1E1DD0030DAE7 /* BabysTime */ = {
 			isa = PBXGroup;
 			children = (
+				25DD72EA22B9D2980041BB6A /* ActivityViewController.swift */,
 				251FD9C622B1E1DD0030DAE7 /* AppDelegate.swift */,
-				251FD9C822B1E1DD0030DAE7 /* ViewController.swift */,
 				251FD9CA22B1E1DD0030DAE7 /* Main.storyboard */,
 				251FD9CD22B1E1E00030DAE7 /* Assets.xcassets */,
 				251FD9CF22B1E1E00030DAE7 /* LaunchScreen.storyboard */,
 				251FD9D222B1E1E00030DAE7 /* Info.plist */,
+				25DD72EC22B9D4EA0041BB6A /* Activity.swift */,
+				25DD72EE22B9DB800041BB6A /* ActivityCell.swift */,
 			);
 			path = BabysTime;
 			sourceTree = "<group>";
@@ -135,8 +141,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				251FD9C922B1E1DD0030DAE7 /* ViewController.swift in Sources */,
+				25DD72ED22B9D4EA0041BB6A /* Activity.swift in Sources */,
 				251FD9C722B1E1DD0030DAE7 /* AppDelegate.swift in Sources */,
+				25DD72EF22B9DB800041BB6A /* ActivityCell.swift in Sources */,
+				25DD72EB22B9D2980041BB6A /* ActivityViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
