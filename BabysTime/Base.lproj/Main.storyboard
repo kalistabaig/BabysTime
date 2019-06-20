@@ -34,6 +34,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="164" y="124"/>
         </scene>
         <!--Activity View Controller-->
         <scene sceneID="Vg0-2T-Sj8">
@@ -64,14 +65,14 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" text="Sleepy Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucp-qm-5xV">
-                                                            <rect key="frame" x="63" y="5" width="94" height="21"/>
+                                                            <rect key="frame" x="63" y="5" width="141" height="21"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" text="9:00pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGj-et-X23">
-                                                            <rect key="frame" x="63" y="25" width="45" height="15"/>
+                                                            <rect key="frame" x="63" y="25" width="96" height="15"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
@@ -99,6 +100,9 @@
                                                 <rect key="frame" x="303" y="70.5" width="37" height="34"/>
                                                 <fontDescription key="fontDescription" name="Kailasa-Bold" family="Kailasa" pointSize="17"/>
                                                 <state key="normal" title="ADD"/>
+                                                <connections>
+                                                    <action selector="addButton:" destination="nJT-dx-1Wb" eventType="touchUpInside" id="7cd-Wd-RQe"/>
+                                                </connections>
                                             </button>
                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="NLu-iD-Gug">
                                                 <rect key="frame" x="28" y="22.5" width="245" height="130"/>
@@ -146,7 +150,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="hmm-4U-SWC">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EmojiCell" id="hmm-4U-SWC" customClass="EmojiCollectionViewCell" customModule="BabysTime" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="-5" width="80" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -165,6 +169,9 @@
                                             <constraint firstItem="KkR-xW-xym" firstAttribute="centerX" secondItem="hmm-4U-SWC" secondAttribute="centerX" id="2uC-FO-i2s"/>
                                             <constraint firstItem="KkR-xW-xym" firstAttribute="centerY" secondItem="hmm-4U-SWC" secondAttribute="centerY" id="YOW-X2-nST"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="label" destination="KkR-xW-xym" id="mJp-E5-8Ox"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -183,11 +190,13 @@
                     </view>
                     <connections>
                         <outlet property="activityTable" destination="SQJ-Ae-9PX" id="ikT-He-7SM"/>
+                        <outlet property="emojiCollectionView" destination="rDE-sn-bsd" id="FX9-ty-lGB"/>
+                        <outlet property="timePicker" destination="NLu-iD-Gug" id="rfZ-Hk-VgW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gC3-YY-AVb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="892" y="124"/>
+            <point key="canvasLocation" x="892" y="123.68815592203899"/>
         </scene>
     </scenes>
 </document>
