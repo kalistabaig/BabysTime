@@ -10,6 +10,6 @@ import Foundation
 
 struct Activity {
     var time: Date
-    let activityLogo: String
-    let activityTitle: String
+    var babyAction: BabyAction
+   
 }

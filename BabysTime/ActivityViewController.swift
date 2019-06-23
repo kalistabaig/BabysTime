@@ -32,8 +32,12 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
     }
     
     //model for emoji collection
-    var emojisForActivities = "🍼💩😴🧷🤮".map {String($0)} // array of emoji strings mapped to an array of string, maps takes a collection turns it to an array and exectute the closure on each item
-
+    var actions = [BabyAction(logo: "🍼", title: "Milk"),
+                   BabyAction(logo: "💩", title: "Poo"),
+                   BabyAction(logo: "😴", title: "DoDo"),
+                   BabyAction(logo: "🧷", title: "Diaper"),
+                   BabyAction(logo: "🤮", title: "Barf")
+    ]
     @IBOutlet weak var emojiCollectionView: UICollectionView!{
         didSet{
             emojiCollectionView.dataSource = self
@@ -42,7 +46,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return emojisForActivities.count
+        return actions.count
     }
     
     private var font: UIFont{
@@ -52,7 +56,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
         if let emojiCell = cell as? EmojiCollectionViewCell{
-            let text = NSAttributedString(string: emojisForActivities[indexPath.item], attributes: [.font:font])
+            let text = NSAttributedString(string: actions[indexPath.item].logo, attributes: [.font:font])
             emojiCell.label.attributedText = text
         }
         return cell
@@ -70,8 +74,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
     
     @IBAction func addButton(_ sender: UIButton) {
         
-        
-        let newActivity = Activity(time: timePicker.date, activityLogo: emojisForActivities[newItemNum], activityTitle: "Diaper Change")
+        let babyAction = actions[newItemNum]
+        let newActivity = Activity(time: timePicker.date, babyAction: babyAction)
         activities.insert(newActivity, at: 0)
         let indexPath = IndexPath(row: 0, section: 0)
         activityTable.insertRows(at: [indexPath], with: UITableView.RowAnimation.right)
@@ -83,9 +87,10 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
         super.viewDidLoad()
         
         activities = [
-            Activity(time: Date(), activityLogo: "🍼", activityTitle: "Feeding Time"),
-            Activity(time: Date(), activityLogo: "💩", activityTitle: "Took a Crap"),
-            Activity(time: Date(), activityLogo: "😴", activityTitle: "DoDo Time")
+            Activity(time: Date(), babyAction: BabyAction(logo: "🍼", title: "Feeding Time")),
+            Activity(time: Date(), babyAction: BabyAction(logo: "😴", title: "DoDo time")),
+            Activity(time: Date(), babyAction: BabyAction(logo: "💩", title: "Took a Crap"))
+           
         ]
         activityTable.reloadData()
         // Do any additional setup after loading the view.

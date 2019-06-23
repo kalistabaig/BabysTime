@@ -16,8 +16,8 @@ class ActivityCell: UITableViewCell {
     
     var activity: Activity! {
         didSet{
-            logoLabel.text = activity.activityLogo
-            titleLabel.text = activity.activityTitle
+            logoLabel.text = activity.babyAction.logo
+            titleLabel.text = activity.babyAction.title
             let formatter = DateFormatter()
             formatter.dateFormat = "hh:mm a"
             timeLabel.text = formatter.string(from: activity.time)
