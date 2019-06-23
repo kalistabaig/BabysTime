@@ -10,9 +10,15 @@ import UIKit
 
 class ActivityViewController: UIViewController, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+     @IBOutlet weak var addButton: UIButton!
+    
     //model for table with activities
     var activities: [Activity] = []
-    var newItemNum: Int = -1
+    var newItemNum: Int = -1 {
+        didSet{
+            addButton.isEnabled =  newItemNum >= 0 && newItemNum < actions.count
+        }
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return activities.count
@@ -72,16 +78,28 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
         collectionView.cellForItem(at: indexPath)?.contentView.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
     }
     
-    @IBAction func addButton(_ sender: UIButton) {
+    @IBAction func addButtonAction(_ sender: UIButton) {
         
         let babyAction = actions[newItemNum]
         let newActivity = Activity(time: timePicker.date, babyAction: babyAction)
-        activities.insert(newActivity, at: 0)
-        let indexPath = IndexPath(row: 0, section: 0)
+    
+        var largestIndex = activities.endIndex
+        
+        for index in 0..<activities.count{
+            if newActivity.time > activities[index].time{
+                largestIndex = index
+                break
+            }
+        }
+        
+        activities.insert(newActivity, at: largestIndex)
+        let indexPath = IndexPath(row: largestIndex, section: 0)
         activityTable.insertRows(at: [indexPath], with: UITableView.RowAnimation.right)
+        activityTable.scrollToRow(at: indexPath, at: UITableView.ScrollPosition.bottom, animated: true)
     }
     
    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +111,7 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
            
         ]
         activityTable.reloadData()
+        addButton.isEnabled = false
         // Do any additional setup after loading the view.
     }
     

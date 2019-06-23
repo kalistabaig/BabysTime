@@ -19,7 +19,7 @@ class ActivityCell: UITableViewCell {
             logoLabel.text = activity.babyAction.logo
             titleLabel.text = activity.babyAction.title
             let formatter = DateFormatter()
-            formatter.dateFormat = "hh:mm a"
+            formatter.dateFormat = "MMM-dd-yyyy hh:mm a"
             timeLabel.text = formatter.string(from: activity.time)
         }
     }
