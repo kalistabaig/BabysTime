@@ -20,24 +20,38 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
         }
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return activities.count
-    }
+   
     
     @IBOutlet weak var activityTable: UITableView! {
         didSet{
             activityTable.dataSource = self
         }
     }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections[section].activities.count
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy"
+        return formatter.string(from: sections[section].date)
+        
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "babyActivity") as! ActivityCell
-        let activity = activities[indexPath.row]
+        let activity = sections[indexPath.section].activities[indexPath.row]
         cell.activity = activity
         return cell
         
     }
     
     //model for emoji collection
+    var sections: [ActivitySection] = []
+    
     var actions = [BabyAction(logo: "🍼", title: "Milk"),
                    BabyAction(logo: "💩", title: "Poo"),
                    BabyAction(logo: "😴", title: "DoDo"),
@@ -78,11 +92,35 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
         collectionView.cellForItem(at: indexPath)?.contentView.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
     }
     
+    fileprivate func getDate(_ newActivity: Activity) -> Date {
+        let calendar = Calendar.current
+        let dateComponents = calendar.dateComponents([.day, .month, .year], from: newActivity.time)
+        return calendar.date(from: dateComponents)!
+    }
+    
     @IBAction func addButtonAction(_ sender: UIButton) {
-        
         let babyAction = actions[newItemNum]
         let newActivity = Activity(time: timePicker.date, babyAction: babyAction)
-    
+        let date = getDate(newActivity)
+        
+        let sectionForDate = sections.first { (section) -> Bool in
+            return section.date == date
+        }
+        if let sectionForDate = sectionForDate{ //if the sectin exists add the new activity to that sections activity array
+            sectionForDate.activities.append(newActivity) // if the section doesnt exists i.e. its a new day then create a section for the activity and add the new actifity to the new sections' list of activities
+            let sectionIndex = sections.firstIndex{ $0.date == sectionForDate.date }!
+            let indexPath = IndexPath(row: sectionForDate.activities.count-1, section: sectionIndex)
+            activityTable.insertRows(at: [indexPath], with: UITableView.RowAnimation.right)
+        
+        } else {
+            let newSection = ActivitySection(date: date, activities: [newActivity])
+            sections.append(newSection)
+            activityTable.insertSections(IndexSet(arrayLiteral: sections.count-1), with: UITableView.RowAnimation.fade)
+        }
+        
+        return
+        
+
         var largestIndex = activities.endIndex
         
         for index in 0..<activities.count{
@@ -104,13 +142,13 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        activities = [
-            Activity(time: Date(), babyAction: BabyAction(logo: "🍼", title: "Feeding Time")),
-            Activity(time: Date(), babyAction: BabyAction(logo: "😴", title: "DoDo time")),
-            Activity(time: Date(), babyAction: BabyAction(logo: "💩", title: "Took a Crap"))
-           
-        ]
-        activityTable.reloadData()
+//        activities = [
+//            Activity(time: Date(), babyAction: BabyAction(logo: "🍼", title: "Feeding Time")),
+//            Activity(time: Date(), babyAction: BabyAction(logo: "😴", title: "DoDo time")),
+//            Activity(time: Date(), babyAction: BabyAction(logo: "💩", title: "Took a Crap"))
+//
+//        ]
+//        activityTable.reloadData()
         addButton.isEnabled = false
         // Do any additional setup after loading the view.
     }
