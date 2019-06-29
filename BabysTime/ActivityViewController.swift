@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ActivityViewController: UIViewController, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ActivityViewController: UIViewController, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate {
     
      @IBOutlet weak var addButton: UIButton!
     
@@ -19,34 +19,12 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
             addButton.isEnabled =  newItemNum >= 0 && newItemNum < actions.count
         }
     }
-
    
-    
     @IBOutlet weak var activityTable: UITableView! {
         didSet{
             activityTable.dataSource = self
+            activityTable.delegate = self
         }
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].activities.count
-    }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM dd, yyyy"
-        return formatter.string(from: sections[section].date)
-        
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "babyActivity") as! ActivityCell
-        let activity = sections[indexPath.section].activities[indexPath.row]
-        cell.activity = activity
-        return cell
-        
     }
     
     //model for emoji collection
@@ -106,62 +84,77 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
         let sectionForDate = sections.first { (section) -> Bool in
             return section.date == date
         }
+        
         if let sectionForDate = sectionForDate{ //if the sectin exists add the new activity to that sections activity array
-            sectionForDate.activities.append(newActivity) // if the section doesnt exists i.e. its a new day then create a section for the activity and add the new actifity to the new sections' list of activities
+            
+            let largestIndex = sectionForDate.activities.firstIndex{ newActivity.time > $0.time} ?? sectionForDate.activities.endIndex
             let sectionIndex = sections.firstIndex{ $0.date == sectionForDate.date }!
-            let indexPath = IndexPath(row: sectionForDate.activities.count-1, section: sectionIndex)
+            sectionForDate.activities.insert(newActivity, at: largestIndex)
+            let indexPath = IndexPath(row: largestIndex, section: sectionIndex)
+            //activityTable.scrollToRow(at: indexPath, at: .bottom, animated: true)
             activityTable.insertRows(at: [indexPath], with: UITableView.RowAnimation.right)
+            
         
         } else {
             let newSection = ActivitySection(date: date, activities: [newActivity])
-            sections.append(newSection)
-            activityTable.insertSections(IndexSet(arrayLiteral: sections.count-1), with: UITableView.RowAnimation.fade)
+            
+            let largestSectionIndex = sections.firstIndex{newSection.date > $0.date} ?? sections.endIndex
+            sections.insert(newSection, at: largestSectionIndex)
+            activityTable.insertSections(IndexSet(integer: largestSectionIndex), with: UITableView.RowAnimation.fade)
         }
-        
-        return
-        
-
-        var largestIndex = activities.endIndex
-        
-        for index in 0..<activities.count{
-            if newActivity.time > activities[index].time{
-                largestIndex = index
-                break
-            }
-        }
-        
-        activities.insert(newActivity, at: largestIndex)
-        let indexPath = IndexPath(row: largestIndex, section: 0)
-        activityTable.insertRows(at: [indexPath], with: UITableView.RowAnimation.right)
-        activityTable.scrollToRow(at: indexPath, at: UITableView.ScrollPosition.bottom, animated: true)
     }
-    
-   
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        activities = [
-//            Activity(time: Date(), babyAction: BabyAction(logo: "🍼", title: "Feeding Time")),
-//            Activity(time: Date(), babyAction: BabyAction(logo: "😴", title: "DoDo time")),
-//            Activity(time: Date(), babyAction: BabyAction(logo: "💩", title: "Took a Crap"))
-//
-//        ]
-//        activityTable.reloadData()
         addButton.isEnabled = false
         // Do any additional setup after loading the view.
     }
     
+}
 
-    /*
-    // MARK: - Navigation
+// MARK: - UITableViewDatasource
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension ActivityViewController {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
     }
-    */
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections[section].activities.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy"
+        return formatter.string(from: sections[section].date)
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "babyActivity") as! ActivityCell
+        let activity = sections[indexPath.section].activities[indexPath.row]
+        cell.activity = activity
+        return cell
+    }
+}
 
+// MARK: - UITableViewDelegate
+
+extension ActivityViewController {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = deleteAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
+            self.sections[indexPath.section].activities.remove(at: indexPath.row)
+            self.activityTable.deleteRows(at: [indexPath], with: .automatic)
+            completion(true)
+        }
+        action.image = #imageLiteral(resourceName: "trash-2")
+        action.backgroundColor = .red
+        return action
+    }
 }
