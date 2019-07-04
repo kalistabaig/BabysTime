@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct BabyAction{
+struct BabyAction: Codable{
     var logo: String
     var title: String
 }

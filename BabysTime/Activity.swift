@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Activity {
+struct Activity: Codable {
     var time: Date
     var babyAction: BabyAction
    

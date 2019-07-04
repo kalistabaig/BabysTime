@@ -10,12 +10,10 @@ import Foundation
 
 protocol DatabaseProtocol {
     
+    func addActivity(_ activity: Activity)
     func getActvities() -> [Activity]
-    func saveActivity(_ activity: Activity)
-    
+    func addBabyAction(_ babyAction: BabyAction)
     func getBabyActions() -> [BabyAction]
-    func saveBabyAction(_ babyAction: BabyAction)
-    
     func getActivities(babyAction: BabyAction) -> [Activity]
     
 }
