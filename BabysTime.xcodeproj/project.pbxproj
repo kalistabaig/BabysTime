@@ -7,21 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2500047022D1389700B32A3E /* NewActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2500046F22D1389700B32A3E /* NewActionViewController.swift */; };
 		250FEAEB22BB222100EC6DEB /* BabyAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250FEAEA22BB222100EC6DEB /* BabyAction.swift */; };
 		251FD9C722B1E1DD0030DAE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251FD9C622B1E1DD0030DAE7 /* AppDelegate.swift */; };
 		251FD9CC22B1E1DD0030DAE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 251FD9CA22B1E1DD0030DAE7 /* Main.storyboard */; };
 		251FD9CE22B1E1E00030DAE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 251FD9CD22B1E1E00030DAE7 /* Assets.xcassets */; };
 		251FD9D122B1E1E00030DAE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 251FD9CF22B1E1E00030DAE7 /* LaunchScreen.storyboard */; };
 		2527F06722BACAE2009788B9 /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2527F06622BACAE2009788B9 /* EmojiCollectionViewCell.swift */; };
+		2558140122D7F23600B2381D /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2558140022D7F23600B2381D /* FilterViewController.swift */; };
 		259324F722C1AABA005B1306 /* ActivitySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259324F622C1AABA005B1306 /* ActivitySection.swift */; };
 		2596E9BF22CD821F0048EC1C /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2596E9BE22CD821F0048EC1C /* Database.swift */; };
 		25DD72EB22B9D2980041BB6A /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD72EA22B9D2980041BB6A /* ActivityViewController.swift */; };
 		25DD72ED22B9D4EA0041BB6A /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD72EC22B9D4EA0041BB6A /* Activity.swift */; };
 		25DD72EF22B9DB800041BB6A /* ActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD72EE22B9DB800041BB6A /* ActivityCell.swift */; };
+		25F7BB7A22D6BDEB00B135C7 /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F7BB7922D6BDEB00B135C7 /* ChildViewController.swift */; };
 		E0FC28E422C3A0AD008C5F4B /* DatabaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FC28E322C3A0AD008C5F4B /* DatabaseProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2500046F22D1389700B32A3E /* NewActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActionViewController.swift; sourceTree = "<group>"; };
 		250FEAEA22BB222100EC6DEB /* BabyAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyAction.swift; sourceTree = "<group>"; };
 		251FD9C322B1E1DD0030DAE7 /* BabysTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabysTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		251FD9C622B1E1DD0030DAE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -30,11 +34,13 @@
 		251FD9D022B1E1E00030DAE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		251FD9D222B1E1E00030DAE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2527F06622BACAE2009788B9 /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
+		2558140022D7F23600B2381D /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		259324F622C1AABA005B1306 /* ActivitySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySection.swift; sourceTree = "<group>"; };
 		2596E9BE22CD821F0048EC1C /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		25DD72EA22B9D2980041BB6A /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		25DD72EC22B9D4EA0041BB6A /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		25DD72EE22B9DB800041BB6A /* ActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCell.swift; sourceTree = "<group>"; };
+		25F7BB7922D6BDEB00B135C7 /* ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
 		E0FC28E322C3A0AD008C5F4B /* DatabaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +87,9 @@
 				E0FC28E322C3A0AD008C5F4B /* DatabaseProtocol.swift */,
 				259324F622C1AABA005B1306 /* ActivitySection.swift */,
 				2596E9BE22CD821F0048EC1C /* Database.swift */,
+				2500046F22D1389700B32A3E /* NewActionViewController.swift */,
+				25F7BB7922D6BDEB00B135C7 /* ChildViewController.swift */,
+				2558140022D7F23600B2381D /* FilterViewController.swift */,
 			);
 			path = BabysTime;
 			sourceTree = "<group>";
@@ -156,14 +165,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25F7BB7A22D6BDEB00B135C7 /* ChildViewController.swift in Sources */,
 				259324F722C1AABA005B1306 /* ActivitySection.swift in Sources */,
 				25DD72ED22B9D4EA0041BB6A /* Activity.swift in Sources */,
 				251FD9C722B1E1DD0030DAE7 /* AppDelegate.swift in Sources */,
 				2527F06722BACAE2009788B9 /* EmojiCollectionViewCell.swift in Sources */,
 				250FEAEB22BB222100EC6DEB /* BabyAction.swift in Sources */,
+				2558140122D7F23600B2381D /* FilterViewController.swift in Sources */,
 				25DD72EF22B9DB800041BB6A /* ActivityCell.swift in Sources */,
 				2596E9BF22CD821F0048EC1C /* Database.swift in Sources */,
 				25DD72EB22B9D2980041BB6A /* ActivityViewController.swift in Sources */,
+				2500047022D1389700B32A3E /* NewActionViewController.swift in Sources */,
 				E0FC28E422C3A0AD008C5F4B /* DatabaseProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

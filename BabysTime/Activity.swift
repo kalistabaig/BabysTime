@@ -8,8 +8,16 @@
 
 import Foundation
 
-struct Activity: Codable {
+class Activity: Codable {
     var time: Date
     var babyAction: BabyAction
-   
+    
+    init(time: Date, babyAction: BabyAction) {
+        self.time = time
+        self.babyAction = babyAction
+    }
 }
+
+
+
+

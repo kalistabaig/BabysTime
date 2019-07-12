@@ -10,7 +10,10 @@ import Foundation
 
 protocol DatabaseProtocol {
     
+    static var shared: DatabaseProtocol { get }
+    
     func addActivity(_ activity: Activity)
+    func deleteActivity(_ activity: Activity)
     func getActvities() -> [Activity]
     func addBabyAction(_ babyAction: BabyAction)
     func getBabyActions() -> [BabyAction]

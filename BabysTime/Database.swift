@@ -9,16 +9,19 @@
 import Foundation
 
 class Database: DatabaseProtocol {
-    
+   
     var activities = [Activity]() // time 
     var babyActions = [BabyAction]() // logo title
     
+    static var shared: DatabaseProtocol = Database()
+    
     init(){
         let defaultBabyActions = [BabyAction(logo: "🍼", title: "Milk"),
-                       BabyAction(logo: "💩", title: "Poo"),
-                       BabyAction(logo: "😴", title: "DoDo"),
-                       BabyAction(logo: "🧷", title: "Diaper"),
-                       BabyAction(logo: "🤮", title: "Barf")
+                                  BabyAction(logo: "💩", title: "Poo"),
+                                  BabyAction(logo: "😴", title: "DoDo"),
+                                  BabyAction(logo: "🧷", title: "Diaper"),
+                                  BabyAction(logo: "🤮", title: "Barf")
+            
         ]
         loadActivities()
         if babyActions.count == 0{
@@ -59,9 +62,17 @@ class Database: DatabaseProtocol {
         return activities
     }
     
+    func deleteActivity(_ activity: Activity){
+        activities.removeAll { (babyActivity) -> Bool in
+            return activity === babyActivity
+        }
+        saveActivities()
+    }
+    
     
     func addBabyAction(_ babyAction: BabyAction) {
         babyActions.append(babyAction)
+        
     }
     
     func getBabyActions() -> [BabyAction] {

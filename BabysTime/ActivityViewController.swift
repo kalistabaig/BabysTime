@@ -10,8 +10,31 @@ import UIKit
 
 class ActivityViewController: UIViewController, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate {
     
-     @IBOutlet weak var addButton: UIButton!
-    let database: DatabaseProtocol = Database() // database object can hold any object that implements the database protocol
+    @IBOutlet weak var addButton: UIButton!
+    var filterAction: BabyAction?
+    
+    @IBAction func filterAction(_ sender: Any) {
+        let blurView = UIView(frame: navigationController!.view.bounds)
+        blurView.backgroundColor = .black
+        blurView.alpha = 0.2
+        navigationController!.view.addSubview(blurView)
+        guard let filterViewController = storyboard?.instantiateViewController(withIdentifier: "filterView") as? FilterViewController else { return }
+        filterViewController.selectedBabyActionClosure = {(babyAction) in
+            self.filterAction = babyAction
+            self.populateModel()
+            self.activityTable.reloadData()
+           // print(babyAction?.logo)
+            blurView.removeFromSuperview()
+            
+        }
+        filterViewController.modalPresentationStyle = .overCurrentContext
+        present(filterViewController, animated: true, completion: nil)
+        
+    }
+    
+    
+    
+    let database: DatabaseProtocol = Database.shared // database object can hold any object that implements the database protocol
     
     //model for table with activities
     //var activities: [Activity] = []
@@ -28,8 +51,12 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
         }
     }
     
+    
+    
     //model for emoji collection
     var sections: [ActivitySection] = []
+    
+    
     
     var actions: [BabyAction] {
         return database.getBabyActions()
@@ -42,8 +69,12 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
         }
     }
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return actions.count
+        return section == 0 ? actions.count : 1
     }
     
     private var font: UIFont{
@@ -51,10 +82,16 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
-        if let emojiCell = cell as? EmojiCollectionViewCell{
-            let text = NSAttributedString(string: actions[indexPath.item].logo, attributes: [.font:font])
-            emojiCell.label.attributedText = text
+        let cell: UICollectionViewCell
+        if indexPath.section == 1 {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddEmojiCell", for: indexPath)
+            
+        } else {
+            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
+            if let emojiCell = cell as? EmojiCollectionViewCell{
+                let text = NSAttributedString(string: actions[indexPath.item].logo, attributes: [.font:font])
+                emojiCell.label.attributedText = text
+            }
         }
         return cell
     }
@@ -62,11 +99,22 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
     @IBOutlet weak var timePicker: UIDatePicker!
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if newItemNum > -1 {
-            collectionView.cellForItem(at: IndexPath(row: newItemNum, section: 0))?.contentView.backgroundColor = UIColor.clear
+        if indexPath.section == 0 {
+            if newItemNum > -1 {
+                collectionView.cellForItem(at: IndexPath(row: newItemNum, section: 0))?.contentView.backgroundColor = UIColor.clear
+            }
+            newItemNum = indexPath.item
+            collectionView.cellForItem(at: indexPath)?.contentView.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+        } else {
+            if let newActionViewController = storyboard?.instantiateViewController(withIdentifier: "NewActionViewController") as? NewActionViewController {
+                newActionViewController.selectedBabyActionClosure = {(babyAction) in
+                    collectionView.reloadData()
+                }
+                self.present(newActionViewController, animated: true) {
+                    print("finished presenting")
+                }
+            }
         }
-        newItemNum = indexPath.item
-        collectionView.cellForItem(at: indexPath)?.contentView.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
     }
     
     fileprivate func getDate(_ newActivity: Activity) -> Date {
@@ -100,10 +148,16 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        addButton.isEnabled = false
-        for activity in database.getActvities(){
+    fileprivate func populateModel() {
+        sections.removeAll()
+        var activities: [Activity]
+        if let filterAction = filterAction {
+            activities = database.getActivities(babyAction: filterAction)
+        }else{
+            activities = database.getActvities()
+        }
+        
+        for activity in activities{
             let date = getDate(activity)
             let sectionForDate = sections.first { (section) -> Bool in
                 return section.date == date
@@ -118,9 +172,18 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
             }
         }
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addButton.isEnabled = false
+        populateModel()
+    }
 }
 
-// MARK: - UITableViewDatasource
+
+
+
+// MARK: - UITableViewDatasource Activity Table
 
 extension ActivityViewController {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -147,7 +210,8 @@ extension ActivityViewController {
     }
 }
 
-// MARK: - UITableViewDelegate
+
+// MARK: - UITableViewDelegate Activity Table
 
 extension ActivityViewController {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -157,10 +221,20 @@ extension ActivityViewController {
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completion) in
+            self.database.deleteActivity(self.sections[indexPath.section].activities[indexPath.row])
             self.sections[indexPath.section].activities.remove(at: indexPath.row)
-            self.activityTable.deleteRows(at: [indexPath], with: .automatic)
+            
+            if self.sections[indexPath.section].activities.count == 0 {
+                self.sections.remove(at: indexPath.section)
+                self.activityTable.deleteSections(IndexSet([indexPath.section]), with: .automatic)
+            } else {
+                self.activityTable.deleteRows(at: [indexPath], with: .automatic)
+            }
+           
             completion(true)
+            
         }
+        
         action.image = #imageLiteral(resourceName: "trash-2")
         action.backgroundColor = .red
         return action
