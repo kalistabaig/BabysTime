@@ -12,6 +12,7 @@ class Database: DatabaseProtocol {
    
     var activities = [Activity]() // time 
     var babyActions = [BabyAction]() // logo title
+    // kid model
     
     static var shared: DatabaseProtocol = Database()
     
@@ -61,6 +62,21 @@ class Database: DatabaseProtocol {
     func getActvities() -> [Activity] {
         return activities
     }
+
+    func getActivities(babyAction: BabyAction) -> [Activity] {
+        let activitiesForAction = activities.filter { (activity) -> Bool in
+            return activity.babyAction.logo == babyAction.logo
+        }
+        return activitiesForAction
+    }
+    func getActivities(babyActions: [BabyAction]) -> [Activity]{
+        let filteredActivities = activities.filter { (activity) -> Bool in
+            return babyActions.contains(where: { (babyAction) -> Bool in
+                return babyAction.logo == activity.babyAction.logo
+            })
+        }
+        return filteredActivities
+    }
     
     func deleteActivity(_ activity: Activity){
         activities.removeAll { (babyActivity) -> Bool in
@@ -79,12 +95,9 @@ class Database: DatabaseProtocol {
         return babyActions
     }
     
-    func getActivities(babyAction: BabyAction) -> [Activity] {
-        let activitiesForAction = activities.filter { (activity) -> Bool in
-            return activity.babyAction.logo == babyAction.logo
-        }
-        return activitiesForAction
-    }
+   
+    
+    
     
     
     

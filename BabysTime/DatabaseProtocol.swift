@@ -15,8 +15,10 @@ protocol DatabaseProtocol {
     func addActivity(_ activity: Activity)
     func deleteActivity(_ activity: Activity)
     func getActvities() -> [Activity]
+    func getActivities(babyAction: BabyAction) -> [Activity]
+    func getActivities(babyActions: [BabyAction]) -> [Activity]
     func addBabyAction(_ babyAction: BabyAction)
     func getBabyActions() -> [BabyAction]
-    func getActivities(babyAction: BabyAction) -> [Activity]
+    
     
 }

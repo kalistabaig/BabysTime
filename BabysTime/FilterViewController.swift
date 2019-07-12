@@ -11,14 +11,14 @@ import UIKit
 class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // Variables
-    var selectedBabyActionClosure: ((BabyAction?) -> Void)!
+    var selectedBabyActionClosure: (([BabyAction]) -> Void)!
     let database: DatabaseProtocol = Database.shared
-    var filteredAction: BabyAction?
+    var filteredActions: [BabyAction] = []
     
     //Actions
     @IBAction func doneAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
-        self.selectedBabyActionClosure(filteredAction)
+        self.selectedBabyActionClosure(filteredActions)
     }
     
     //outlets
@@ -58,8 +58,16 @@ extension FilterViewController{
 extension FilterViewController{
     //Table view function for selected row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let cell = tableView.cellForRow(at: indexPath)
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        if (cell.accessoryType == .checkmark){
+            cell.accessoryType = .none
+            filteredActions.removeAll { (babyAction) -> Bool in
+                babyActions[indexPath.row].logo == babyAction.logo
+            }
+        }else{
+            cell.accessoryType = .checkmark
+            filteredActions.append(babyActions[indexPath.row])
+        }
         
-        filteredAction = babyActions[indexPath.row]
     }
 }

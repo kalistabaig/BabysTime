@@ -11,7 +11,7 @@ import UIKit
 class ActivityViewController: UIViewController, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDelegate {
     
     @IBOutlet weak var addButton: UIButton!
-    var filterAction: BabyAction?
+    var filterActions: [BabyAction] = []
     
     @IBAction func filterAction(_ sender: Any) {
         let blurView = UIView(frame: navigationController!.view.bounds)
@@ -19,8 +19,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
         blurView.alpha = 0.2
         navigationController!.view.addSubview(blurView)
         guard let filterViewController = storyboard?.instantiateViewController(withIdentifier: "filterView") as? FilterViewController else { return }
-        filterViewController.selectedBabyActionClosure = {(babyAction) in
-            self.filterAction = babyAction
+        filterViewController.selectedBabyActionClosure = {(babyActions) in
+            self.filterActions = babyActions
             self.populateModel()
             self.activityTable.reloadData()
            // print(babyAction?.logo)
@@ -151,8 +151,8 @@ class ActivityViewController: UIViewController, UITableViewDataSource, UICollect
     fileprivate func populateModel() {
         sections.removeAll()
         var activities: [Activity]
-        if let filterAction = filterAction {
-            activities = database.getActivities(babyAction: filterAction)
+        if filterActions.count != 0 {
+            activities = database.getActivities(babyActions: filterActions)
         }else{
             activities = database.getActvities()
         }
